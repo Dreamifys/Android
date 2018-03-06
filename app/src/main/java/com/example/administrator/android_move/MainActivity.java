@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         //获取感应器管理器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-
     }
     @Override
     protected void onResume()
