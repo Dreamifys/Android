@@ -1,5 +1,6 @@
 package com.example.administrator.android_move;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
@@ -71,6 +73,21 @@ public class MainActivity extends AppCompatActivity {
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
+    }
+    /**
+     * 按钮Sencond Activity 事件处理
+     */
+    public void onClick(View view)
+    {
+        try
+        {
+            Intent achart = new Intent(this,achartengineActivity.class);
+            startActivity(achart);
+        }
+        catch (Exception ex)
+        {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     class MySensorEventListener implements SensorEventListener
