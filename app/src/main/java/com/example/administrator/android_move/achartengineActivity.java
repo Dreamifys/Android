@@ -14,7 +14,6 @@ public class achartengineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_achartengine );
-        //setContentView(R.layout.sample_my_view);
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
 
@@ -26,7 +25,6 @@ public class achartengineActivity extends AppCompatActivity {
                         .setAction( "Action", null ).show();
             }
         } );
-        LinearLayout l = (LinearLayout)findViewById(R.id.lin);
     }
 
 }
