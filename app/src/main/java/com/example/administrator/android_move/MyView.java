@@ -19,12 +19,13 @@ import android.os.Message;
  * TODO: document your custom view class.
  */
 public class MyView extends View {
+
     private int XPoint = 60;
-    private int YPoint = 260;
+    private int YPoint = 760;
     private int XScale = 8;  //刻度长度
-    private int YScale = 40;
+    private int YScale = 24;
     private int XLength = 380;
-    private int YLength = 240;
+    private int YLength = 720;
 
     private int MaxDataSize = XLength / XScale;
 
@@ -50,7 +51,7 @@ public class MyView extends View {
     public MyView(Context context, AttributeSet attrs) {
         super(context, attrs);
         for(int i=0; i<YLabel.length; i++){
-            YLabel[i] = (i + 1) + "M/s";
+            YLabel[i] = (i * 6) + "M/s";
         }
 
         new Thread(new Runnable() {
@@ -59,14 +60,16 @@ public class MyView extends View {
             public void run() {
                 while(true){
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     if(data.size() >= MaxDataSize){
                         data.remove(0);
                     }
-                    data.add(new Random().nextInt(4) + 1);
+                    System.out.println("x.value = " + ((MyApplication)getContext().getApplicationContext()).getX());
+
+                    data.add(((MyApplication)getContext().getApplicationContext()).getX());
                     handler.sendEmptyMessage(0x1234);
                 }
             }
