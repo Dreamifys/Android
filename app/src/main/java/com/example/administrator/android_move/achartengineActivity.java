@@ -21,8 +21,6 @@ public class achartengineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_achartengine );
-        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        setSupportActionBar( toolbar );
         sensorEventListener = new MySensorEventListener();
         //获取感应器管理器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);

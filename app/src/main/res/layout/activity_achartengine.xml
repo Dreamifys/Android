@@ -4,24 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ccc"
     tools:context="com.example.administrator.android_move.achartengineActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    </android.support.design.widget.AppBarLayout>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                app:srcCompat="@color/colorPrimary" />
 
-    <include layout="@layout/content_achartengine" />
-    <include layout="@layout/sample_my_view" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    layout="@layout/sample_my_view"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:id="@+id/include" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="71dp"
+                    android:layout_marginRight="71dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_toLeftOf="@+id/include"
+                    android:layout_toStartOf="@+id/include"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/textView"
+                    android:layout_alignStart="@+id/textView"
+                    android:layout_below="@+id/textView"
+                    android:layout_marginTop="26dp"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/textView2"
+                    android:layout_alignRight="@+id/textView2"
+                    android:layout_below="@+id/textView2"
+                    android:layout_marginTop="40dp"
+                    android:text="TextView" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
