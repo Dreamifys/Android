@@ -31,7 +31,7 @@ import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView accelerometerView;
     private TextView orientationView;
@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sensorEventListener = new MySensorEventListener();
-        accelerometerView = (TextView) this.findViewById(R.id.textview1);
-        orientationView = (TextView) this.findViewById(R.id.textview2);
         //获取感应器管理器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -60,6 +58,23 @@ public class MainActivity extends AppCompatActivity {
         getAxisXLables();//获取x轴的标注
         getAxisPoints();//获取坐标点
         initLineChart();//初始化
+
+        TextView t1 = (TextView) findViewById(R.id.textview1);
+        TextView t2 = (TextView) findViewById(R.id.textview2);
+        TextView t3 = (TextView) findViewById(R.id.textview3);
+        TextView t4 = (TextView) findViewById(R.id.textview4);
+        TextView t5 = (TextView) findViewById(R.id.textview5);
+        TextView t6 = (TextView) findViewById(R.id.textview6);
+        TextView t7 = (TextView) findViewById(R.id.textview7);
+        TextView t8 = (TextView) findViewById(R.id.textview8);
+        t1.setOnClickListener(this);
+        t2.setOnClickListener(this);
+        t3.setOnClickListener(this);
+        t4.setOnClickListener(this);
+        t5.setOnClickListener(this);
+        t6.setOnClickListener(this);
+        t7.setOnClickListener(this);
+        t8.setOnClickListener(this);
 
     }
     @Override
@@ -74,20 +89,45 @@ public class MainActivity extends AppCompatActivity {
         sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
     }
-    /**
-     * 按钮Sencond Activity 事件处理
-     */
     public void onClick(View view)
     {
-        try
-        {
-            Intent achart = new Intent(this,achartengineActivity.class);
-            startActivity(achart);
+        int sensor = 1;
+        switch (view.getId()){
+            case R.id.textview1:
+                sensor = 1;
+                break;
+            case R.id.textview2:
+                sensor = 1;
+                break;
+            case R.id.textview3:
+                sensor = 1;
+                break;
+            case R.id.textview4:
+                sensor = 1;
+                break;
+            case R.id.textview5:
+                sensor = 1;
+                break;
+            case R.id.textview6:
+                sensor = 1;
+                break;
+            case R.id.textview7:
+                sensor = 1;
+                break;
+            case R.id.textview8:
+                sensor = 1;
+                break;
+
+            default:
+                break;
         }
-        catch (Exception ex)
-        {
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        Intent achart = new Intent(this,achartengineActivity.class);
+        Bundle bundle=new Bundle();
+        //传递name参数为tinyphp
+        bundle.putInt("name", sensor);
+        achart.putExtras(bundle);
+        startActivity(achart);
+
     }
 
     class MySensorEventListener implements SensorEventListener
@@ -101,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 float x = event.values[SensorManager.DATA_X];
                 float y = event.values[SensorManager.DATA_Y];
                 float z = event.values[SensorManager.DATA_Z];
-                orientationView.setText("Orientation: " + (int)x + ", " + (int)y + ", " + (int)z);
             }
             //得到加速度的值
             else if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER)
@@ -109,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 float x = event.values[SensorManager.DATA_X];
                 float y = event.values[SensorManager.DATA_Y];
                 float z = event.values[SensorManager.DATA_Z];
-                accelerometerView.setText("Accelerometer: " + (int)x + ", " + (int)y + ", " + (int)z);
             }
 
         }

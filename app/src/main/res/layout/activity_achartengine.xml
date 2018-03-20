@@ -37,37 +37,6 @@
                     android:layout_marginRight="6dp"
                     android:id="@+id/include" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginEnd="71dp"
-                    android:layout_marginRight="71dp"
-                    android:layout_marginTop="55dp"
-                    android:layout_toLeftOf="@+id/include"
-                    android:layout_toStartOf="@+id/include"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/textView"
-                    android:layout_alignStart="@+id/textView"
-                    android:layout_below="@+id/textView"
-                    android:layout_marginTop="26dp"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/textView2"
-                    android:layout_alignRight="@+id/textView2"
-                    android:layout_below="@+id/textView2"
-                    android:layout_marginTop="40dp"
-                    android:text="TextView" />
             </RelativeLayout>
 
         </LinearLayout>

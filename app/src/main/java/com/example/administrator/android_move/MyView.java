@@ -30,6 +30,8 @@ public class MyView extends View {
     private int MaxDataSize = XLength / XScale;
 
     private List<Integer> data = new ArrayList<Integer>();
+    private List<Integer> datay = new ArrayList<Integer>();
+    private List<Integer> dataz = new ArrayList<Integer>();
 
 
 
@@ -67,9 +69,18 @@ public class MyView extends View {
                     if(data.size() >= MaxDataSize){
                         data.remove(0);
                     }
-                    System.out.println("x.value = " + ((MyApplication)getContext().getApplicationContext()).getX());
 
                     data.add(((MyApplication)getContext().getApplicationContext()).getX());
+                    /*if(datay.size() >= MaxDataSize){
+                        datay.remove(0);
+                    }
+
+                    datay.add(((MyApplication)getContext().getApplicationContext()).getX());
+                    if(dataz.size() >= MaxDataSize){
+                        dataz.remove(0);
+                    }
+
+                    dataz.add(((MyApplication)getContext().getApplicationContext()).getX());*/
                     handler.sendEmptyMessage(0x1234);
                 }
             }
@@ -102,12 +113,25 @@ public class MyView extends View {
 
         //画X轴
         canvas.drawLine(XPoint, YPoint, XPoint + XLength, YPoint, paint);
-        System.out.println("Data.size = " + data.size());
         if(data.size() > 1){
             for(int i=1; i<data.size(); i++){
                 canvas.drawLine(XPoint + (i-1) * XScale, YPoint - data.get(i-1) * YScale,
                         XPoint + i * XScale, YPoint - data.get(i) * YScale, paint);
             }
         }
+        /*paint.setColor(Color.RED);
+        if(datay.size() > 1){
+            for(int i=1; i<datay.size(); i++){
+                canvas.drawLine(XPoint + (i-1) * XScale, YPoint - datay.get(i-1) * YScale,
+                        XPoint + i * XScale, YPoint - datay.get(i) * YScale, paint);
+            }
+        }
+        paint.setColor(Color.YELLOW);
+        if(dataz.size() > 1){
+            for(int i=1; i<dataz.size(); i++){
+                canvas.drawLine(XPoint + (i-1) * XScale, YPoint - dataz.get(i-1) * YScale,
+                        XPoint + i * XScale, YPoint - dataz.get(i) * YScale, paint);
+            }
+        }*/
     }
 }

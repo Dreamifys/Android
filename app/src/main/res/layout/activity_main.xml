@@ -71,12 +71,12 @@
                                 android:id="@+id/textview1"
                                 android:layout_width="match_parent"
                                 android:layout_height="59dp"
-                                android:gravity="center_vertical|left"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentTop="true"
                                 android:layout_marginLeft="60dp"
-                                android:text="ctest1"
+                                android:gravity="center_vertical|left"
+                                android:text="磁场"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp" />
 
@@ -104,13 +104,13 @@
                                 android:id="@+id/textview2"
                                 android:layout_width="match_parent"
                                 android:layout_height="59dp"
-                                android:gravity="center_vertical|left"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentTop="true"
                                 android:layout_marginLeft="60dp"
+                                android:gravity="center_vertical|left"
 
-                                android:text="TextView"
+                                android:text="加速度计"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
                                 app:layout_constraintEnd_toEndOf="parent" />
@@ -142,9 +142,8 @@
                                 android:layout_height="59dp"
                                 android:layout_marginLeft="60dp"
                                 android:gravity="center_vertical|left"
-                                android:text="健康管理"
+                                android:text="陀螺仪"
                                 android:textColor="@android:color/black"
-                                android:onClick="onClick"
                                 android:textSize="18sp" />
 
 
@@ -163,7 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="59dp"
                         android:gravity="center_vertical|left"
-                        android:text="数据测试"
+                        android:text="光"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
@@ -201,7 +200,7 @@
                                 android:layout_height="59dp"
                                 android:layout_marginLeft="60dp"
                                 android:gravity="center_vertical|left"
-                                android:text="数据"
+                                android:text="重力"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp" />
                         </RelativeLayout>
@@ -231,7 +230,7 @@
                                 android:layout_height="59dp"
                                 android:layout_marginLeft="60dp"
                                 android:gravity="center_vertical|left"
-                                android:text="数据"
+                                android:text="方向"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
                                 app:layout_constraintEnd_toEndOf="parent" />
@@ -263,7 +262,7 @@
                                 android:layout_height="59dp"
                                 android:layout_marginLeft="60dp"
                                 android:gravity="center_vertical|left"
-                                android:text="数据"
+                                android:text="线性加速度"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp" />
                         </RelativeLayout>
@@ -281,7 +280,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="59dp"
                         android:gravity="center_vertical|left"
-                        android:text="测试"
+                        android:text="旋转矢量"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"

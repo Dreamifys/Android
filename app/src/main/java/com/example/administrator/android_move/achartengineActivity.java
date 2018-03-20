@@ -17,10 +17,15 @@ public class achartengineActivity extends AppCompatActivity {
 
     private SensorManager sensorManager;
     private MySensorEventListener sensorEventListener;
+
+    int type = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_achartengine );
+        Bundle bundle = this.getIntent().getExtras();
+        //接收name值
+        type = bundle.getInt("name");
         sensorEventListener = new MySensorEventListener();
         //获取感应器管理器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -38,12 +43,8 @@ public class achartengineActivity extends AppCompatActivity {
     protected void onResume()
     {
         //获取方向传感器
-        Sensor orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        Sensor orientationSensor = sensorManager.getDefaultSensor(type);
         sensorManager.registerListener(sensorEventListener, orientationSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-        //获取加速度传感器
-        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
     }
     class MySensorEventListener implements SensorEventListener
@@ -52,21 +53,14 @@ public class achartengineActivity extends AppCompatActivity {
         public void onSensorChanged(SensorEvent event)
         {
             //得到方向的值
-            if(event.sensor.getType()== Sensor.TYPE_ORIENTATION)
+            if(event.sensor.getType()== type)
             {
                 float x = event.values[SensorManager.DATA_X];
                 float y = event.values[SensorManager.DATA_Y];
                 float z = event.values[SensorManager.DATA_Z];
-                System.out.print(x);
                 ((MyApplication)getApplication()).setX((int)x/6);
-            }
-            //得到加速度的值
-            else if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER)
-            {
-                float x = event.values[SensorManager.DATA_X];
-                float y = event.values[SensorManager.DATA_Y];
-                float z = event.values[SensorManager.DATA_Z];
-                //accelerometerView.setText("Accelerometer: " + (int)x + ", " + (int)y + ", " + (int)z);
+                ((MyApplication)getApplication()).setY((int)y/6);
+                ((MyApplication)getApplication()).setZ((int)z/6);
             }
 
         }
