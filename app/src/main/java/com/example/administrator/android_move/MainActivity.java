@@ -83,39 +83,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //获取方向传感器
         Sensor orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         sensorManager.registerListener(sensorEventListener, orientationSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-        //获取加速度传感器
-        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
     }
     public void onClick(View view)
     {
-        int sensor = 1;
+        int sensor = 8;//18 19 计步
         switch (view.getId()){
-            case R.id.textview1:
+            case R.id.textview1://磁场
+                sensor = 2;
+                break;
+            case R.id.textview2://加速度计
                 sensor = 1;
                 break;
-            case R.id.textview2:
-                sensor = 1;
+            case R.id.textview3://陀螺仪
+                sensor = 4;
                 break;
-            case R.id.textview3:
-                sensor = 1;
+            case R.id.textview4://光
+                sensor = 5;
                 break;
-            case R.id.textview4:
-                sensor = 1;
+            case R.id.textview5://重力
+                sensor = 9;
                 break;
-            case R.id.textview5:
-                sensor = 1;
+            case R.id.textview6://方向
+                sensor = 3;
                 break;
-            case R.id.textview6:
-                sensor = 1;
+            case R.id.textview7://线性加速度
+                sensor = 10;
                 break;
-            case R.id.textview7:
-                sensor = 1;
-                break;
-            case R.id.textview8:
-                sensor = 1;
+            case R.id.textview8://旋转矢量
+                sensor = 11;
                 break;
 
             default:

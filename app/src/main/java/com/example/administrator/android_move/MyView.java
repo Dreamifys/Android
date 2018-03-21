@@ -23,9 +23,9 @@ public class MyView extends View {
     private int XPoint = 60;
     private int YPoint = 760;
     private int XScale = 8;  //刻度长度
-    private int YScale = 24;
+    private int YScale = 33;
     private int XLength = 380;
-    private int YLength = 720;
+    private int YLength = 660;
 
     private int MaxDataSize = XLength / XScale;
 
@@ -53,7 +53,7 @@ public class MyView extends View {
     public MyView(Context context, AttributeSet attrs) {
         super(context, attrs);
         for(int i=0; i<YLabel.length; i++){
-            YLabel[i] = (i * 6) + "M/s";
+            YLabel[i] = (i - 9) + " ";
         }
 
         new Thread(new Runnable() {
@@ -71,16 +71,16 @@ public class MyView extends View {
                     }
 
                     data.add(((MyApplication)getContext().getApplicationContext()).getX());
-                    /*if(datay.size() >= MaxDataSize){
+                    if(datay.size() >= MaxDataSize){
                         datay.remove(0);
                     }
 
-                    datay.add(((MyApplication)getContext().getApplicationContext()).getX());
+                    datay.add(((MyApplication)getContext().getApplicationContext()).getY());
                     if(dataz.size() >= MaxDataSize){
                         dataz.remove(0);
                     }
 
-                    dataz.add(((MyApplication)getContext().getApplicationContext()).getX());*/
+                    dataz.add(((MyApplication)getContext().getApplicationContext()).getZ());
                     handler.sendEmptyMessage(0x1234);
                 }
             }
@@ -115,23 +115,23 @@ public class MyView extends View {
         canvas.drawLine(XPoint, YPoint, XPoint + XLength, YPoint, paint);
         if(data.size() > 1){
             for(int i=1; i<data.size(); i++){
-                canvas.drawLine(XPoint + (i-1) * XScale, YPoint - data.get(i-1) * YScale,
-                        XPoint + i * XScale, YPoint - data.get(i) * YScale, paint);
+                canvas.drawLine(XPoint + (i-1) * XScale, YPoint - data.get(i-1) * YScale-9* YScale,
+                        XPoint + i * XScale, YPoint - data.get(i) * YScale-9* YScale, paint);
             }
         }
-        /*paint.setColor(Color.RED);
+        paint.setColor(Color.RED);
         if(datay.size() > 1){
             for(int i=1; i<datay.size(); i++){
-                canvas.drawLine(XPoint + (i-1) * XScale, YPoint - datay.get(i-1) * YScale,
-                        XPoint + i * XScale, YPoint - datay.get(i) * YScale, paint);
+                canvas.drawLine(XPoint + (i-1) * XScale, YPoint - datay.get(i-1) * YScale-9* YScale,
+                        XPoint + i * XScale, YPoint - datay.get(i) * YScale-9* YScale, paint);
             }
         }
         paint.setColor(Color.YELLOW);
         if(dataz.size() > 1){
             for(int i=1; i<dataz.size(); i++){
-                canvas.drawLine(XPoint + (i-1) * XScale, YPoint - dataz.get(i-1) * YScale,
-                        XPoint + i * XScale, YPoint - dataz.get(i) * YScale, paint);
+                canvas.drawLine(XPoint + (i-1) * XScale, YPoint - dataz.get(i-1) * YScale-9* YScale,
+                        XPoint + i * XScale, YPoint - dataz.get(i) * YScale-9* YScale, paint);
             }
-        }*/
+        }
     }
 }

@@ -17,7 +17,9 @@ public class achartengineActivity extends AppCompatActivity {
 
     private SensorManager sensorManager;
     private MySensorEventListener sensorEventListener;
-
+    private TextView t1;
+    private TextView t2;
+    private TextView t3;
     int type = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,9 @@ public class achartengineActivity extends AppCompatActivity {
         Bundle bundle = this.getIntent().getExtras();
         //接收name值
         type = bundle.getInt("name");
+        t1 = this.findViewById(R.id.textView1);
+        t2 = this.findViewById(R.id.textView2);
+        t3 = this.findViewById(R.id.textView3);
         sensorEventListener = new MySensorEventListener();
         //获取感应器管理器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -52,16 +57,22 @@ public class achartengineActivity extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent event)
         {
+
+            double x = event.values[SensorManager.DATA_X];
+            double y = event.values[SensorManager.DATA_Y];
+            double z = event.values[SensorManager.DATA_Z];
             //得到方向的值
-            if(event.sensor.getType()== type)
+            if(event.sensor.getType()==5)
             {
-                float x = event.values[SensorManager.DATA_X];
-                float y = event.values[SensorManager.DATA_Y];
-                float z = event.values[SensorManager.DATA_Z];
-                ((MyApplication)getApplication()).setX((int)x/6);
-                ((MyApplication)getApplication()).setY((int)y/6);
-                ((MyApplication)getApplication()).setZ((int)z/6);
+                y = z = 0.00;
             }
+            ((MyApplication)getApplication()).setX((int)x);
+            ((MyApplication)getApplication()).setY((int)y);
+            ((MyApplication)getApplication()).setZ((int)z);
+
+            t1.setText("x-Orie: " + String.format("%.2f", x).toString());
+            t2.setText("y-Orie: " + String.format("%.2f", y).toString());
+            t3.setText("z-Orie: " + String.format("%.2f", z).toString());
 
         }
         //重写变化
