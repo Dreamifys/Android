@@ -34,15 +34,7 @@ public class achartengineActivity extends AppCompatActivity {
         sensorEventListener = new MySensorEventListener();
         //获取感应器管理器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        FloatingActionButton fab = (FloatingActionButton) findViewById( R.id.fab );
-        fab.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MyApplication)getApplication()).setX(5);
-                Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
-                        .setAction( "Action", null ).show();
-            }
-        } );
+
     }
     @Override
     protected void onResume()

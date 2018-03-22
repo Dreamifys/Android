@@ -7,7 +7,9 @@ import android.hardware.SensorEventListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,9 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SensorManager sensorManager;
     private MySensorEventListener sensorEventListener;
     private LineChartView lineChart;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");// HH:mm:ss
+    //获取当前时间
+    Date dates = new Date(System.currentTimeMillis());
+    //time1.setText("Date获取当前日期时间"+simpleDateFormat.format(dates));
 
-    String[] date = {"10-22","11-22","12-22","1-22","6-22","5-23","5-22","6-22","5-23","5-22"};//X轴的标注
-    int[] score= {50,42,90,33,10,74,22,18,79,20};//图表的数据点
+    String[] date = {"","2点","","6点","","10点","","14点","","18点","","22点",""};//X轴的标注
+    int[] score= {50,54,0,128,42,90,33,10,74,22,18,79,20};//图表的数据点
     private List<PointValue> mPointValues = new ArrayList<PointValue>();
     private List<AxisValue> mAxisXValues = new ArrayList<AxisValue>();
     @Override
@@ -67,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView t6 = (TextView) findViewById(R.id.textview6);
         TextView t7 = (TextView) findViewById(R.id.textview7);
         TextView t8 = (TextView) findViewById(R.id.textview8);
+        ImageView i6 = (ImageView) findViewById(R.id.imageView6);
         t1.setOnClickListener(this);
         t2.setOnClickListener(this);
         t3.setOnClickListener(this);
@@ -75,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         t6.setOnClickListener(this);
         t7.setOnClickListener(this);
         t8.setOnClickListener(this);
+        i6.setOnClickListener(this);
 
     }
     @Override
@@ -83,6 +92,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //获取方向传感器
         Sensor orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         sensorManager.registerListener(sensorEventListener, orientationSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //单次有效计步
+        Sensor  mStepCount = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        //系统计步累加值
+        Sensor  mStepDetector = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        sensorManager.registerListener(sensorEventListener, mStepDetector, SensorManager.SENSOR_DELAY_FASTEST);
+
+        sensorManager.registerListener(sensorEventListener, mStepCount, SensorManager.SENSOR_DELAY_FASTEST);
         super.onResume();
     }
     public void onClick(View view)
@@ -113,16 +129,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.textview8://旋转矢量
                 sensor = 11;
                 break;
+            case R.id.imageView6://地图定位
+                sensor = 0;
+                break;
 
             default:
                 break;
         }
-        Intent achart = new Intent(this,achartengineActivity.class);
-        Bundle bundle=new Bundle();
-        //传递name参数为tinyphp
-        bundle.putInt("name", sensor);
-        achart.putExtras(bundle);
-        startActivity(achart);
+        if(sensor!=0){
+
+            Intent achart = new Intent(this,achartengineActivity.class);
+            Bundle bundle=new Bundle();
+            //传递name参数为tinyphp
+            bundle.putInt("name", sensor);
+            achart.putExtras(bundle);
+            startActivity(achart);
+        }else{
+            Intent achart = new Intent(this,Main2Activity.class);
+            /*Bundle bundle=new Bundle();
+            //传递name参数为tinyphp
+            bundle.putInt("name", sensor);
+            achart.putExtras(bundle);*/
+            startActivity(achart);
+        }
 
     }
 
@@ -144,6 +173,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 float x = event.values[SensorManager.DATA_X];
                 float y = event.values[SensorManager.DATA_Y];
                 float z = event.values[SensorManager.DATA_Z];
+            }
+
+            if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+
+                //event.values[0]为计步历史累加值
+
+                //tvAllCount.setText(event.values[0] + "步");
+
+            }
+
+            if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+
+                if (event.values[0] == 1.0) {
+
+                    //mDetector++;
+
+                    //event.values[0]一次有效计步数据
+
+                    //tvTempCount.setText(mDetector + "步");
+
+                }
+
             }
 
         }
