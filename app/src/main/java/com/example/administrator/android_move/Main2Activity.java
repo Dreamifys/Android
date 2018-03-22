@@ -40,6 +40,7 @@ public class Main2Activity extends AppCompatActivity implements LocationSource,A
         init();
 
     }
+
     /**
      * 初始化
      */
@@ -82,6 +83,9 @@ public class Main2Activity extends AppCompatActivity implements LocationSource,A
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mapView.onDestroy();
+        if(null != mlocationClient){
+            mlocationClient.onDestroy();
+        }
     }
     @Override
     protected void onResume() {
@@ -129,7 +133,7 @@ public class Main2Activity extends AppCompatActivity implements LocationSource,A
             mlocationClient = new AMapLocationClient(this);
             mLocationOption = new AMapLocationClientOption();
             //设置定位监听
-            mlocationClient.setLocationListener( (AMapLocationListener) this );
+            mlocationClient.setLocationListener(this);
             //设置为高精度定位模式
             mLocationOption.setLocationMode( AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             //设置定位参数
