@@ -112,7 +112,7 @@ public class MyView extends View {
         }
 
         //画X轴
-        canvas.drawLine(XPoint, YPoint, XPoint + XLength, YPoint, paint);
+        canvas.drawLine(XPoint, YPoint-9* YScale, XPoint + XLength, YPoint-9* YScale, paint);
         if(data.size() > 1){
             for(int i=1; i<data.size(); i++){
                 canvas.drawLine(XPoint + (i-1) * XScale, YPoint - data.get(i-1) * YScale-9* YScale,

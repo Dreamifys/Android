@@ -1,6 +1,9 @@
 package com.example.administrator.android_move;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,6 +18,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +26,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.idescout.sql.SqlScoutServer;
 
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
@@ -35,7 +41,9 @@ import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private TextView tt1;
+    private TextView tt2;
+    private MyDatabaseHelper dbHelper;
     private TextView accelerometerView;
     private TextView orientationView;
     private SensorManager sensorManager;
@@ -45,27 +53,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //获取当前时间
     Date dates = new Date(System.currentTimeMillis());
     //time1.setText("Date获取当前日期时间"+simpleDateFormat.format(dates));
-
-    String[] date = {"","2点","","6点","","10点","","14点","","18点","","22点",""};//X轴的标注
-    int[] score= {50,54,0,128,42,90,33,10,74,22,18,79,20};//图表的数据点
+    private int todayf;
+    String[] date = {"0点","2点","4点","6点","8点","10点","12点","14点","16点","18点","20点","22点"};//X轴的标注
+    int[] score= {0,0,0,0,0,0,0,0,0,0,0,0};//图表的数据点
     private List<PointValue> mPointValues = new ArrayList<PointValue>();
     private List<AxisValue> mAxisXValues = new ArrayList<AxisValue>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SqlScoutServer.create(this, getPackageName());
         getSupportActionBar().hide();
         //getWindow().setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-
+//db manager
+        dbHelper = new MyDatabaseHelper(this,"BookStore.db",null,1);
+        dbHelper.getWritableDatabase();
+//sensor manager
         sensorEventListener = new MySensorEventListener();
         //获取感应器管理器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-        lineChart = (LineChartView)findViewById(R.id.line_chart);
-        getAxisXLables();//获取x轴的标注
-        getAxisPoints();//获取坐标点
-        initLineChart();//初始化
-
+//kongjian
         TextView t1 = (TextView) findViewById(R.id.textview1);
         TextView t2 = (TextView) findViewById(R.id.textview2);
         TextView t3 = (TextView) findViewById(R.id.textview3);
@@ -74,7 +81,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView t6 = (TextView) findViewById(R.id.textview6);
         TextView t7 = (TextView) findViewById(R.id.textview7);
         TextView t8 = (TextView) findViewById(R.id.textview8);
+        tt1 = (TextView) findViewById(R.id.textView);
+        tt2 = (TextView) findViewById(R.id.textView7);
         ImageView i6 = (ImageView) findViewById(R.id.imageView6);
+        tt1.setOnClickListener(this);
+        tt2.setOnClickListener(this);
         t1.setOnClickListener(this);
         t2.setOnClickListener(this);
         t3.setOnClickListener(this);
@@ -84,11 +95,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         t7.setOnClickListener(this);
         t8.setOnClickListener(this);
         i6.setOnClickListener(this);
-
+//hellochart
+        lineChart = (LineChartView)findViewById(R.id.line_chart);
+        readFromDb();
     }
     @Override
     protected void onResume()
     {
+        mPointValues.clear();
+        readFromDb();
         //获取方向传感器
         Sensor orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         sensorManager.registerListener(sensorEventListener, orientationSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -145,11 +160,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             achart.putExtras(bundle);
             startActivity(achart);
         }else{
+
             Intent achart = new Intent(this,Main2Activity.class);
-            /*Bundle bundle=new Bundle();
-            //传递name参数为tinyphp
-            bundle.putInt("name", sensor);
-            achart.putExtras(bundle);*/
             startActivity(achart);
         }
 
@@ -177,22 +189,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
 
-                //event.values[0]为计步历史累加值
-
-                //tvAllCount.setText(event.values[0] + "步");
+                //event.values[0]为计步历史累加值event.values[0]
+                tt1.setText(""+event.values[0]);
 
             }
 
             if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
 
                 if (event.values[0] == 1.0) {
+                    todayf++;
+                    tt2.setText(""+todayf);
+                    Date d = new Date();
+                    int hours = d.getHours();
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    int s = hours/2;
+                    Cursor cursor = db.rawQuery("select * from foot where type="+s, null);
+                    while (cursor.moveToNext()) {
+                        String type = cursor.getString(cursor.getColumnIndex("type"));
+                        int wri = cursor.getInt(cursor.getColumnIndex("wri"));
+                        int num = cursor.getInt(cursor.getColumnIndex("num"));
+                        String bei = cursor.getString(cursor.getColumnIndex("bei"));
 
-                    //mDetector++;
+                        ContentValues v1 = new ContentValues();
+                        v1.put("num",num+1);
+                        //仔细update中提示的参数（String table,ContentValues,String whereClause,String[] whereArgs）
+                        //第三滴四行指定具体更新那几行。注意第三个参数中的？是一个占位符，通过第四个参数为第三个参数中占位符指定相应的内容。
+                        db.update("foot",v1,"type=?",new String[]{type});
+                        mPointValues.clear();
+                        readFromDb();
+                        return;
+                    }
+                    cursor.close();
 
-                    //event.values[0]一次有效计步数据
-
-                    //tvTempCount.setText(mDetector + "步");
-
+                    ContentValues values = new ContentValues();
+                    values.put("type",s);
+                    values.put("wri",hours);
+                    values.put("num",1);
+                    values.put("bei","normal");
+                    db.insert("foot",null,values);
+                    values.clear();
+                    mPointValues.clear();
+                    readFromDb();
                 }
 
             }
@@ -214,6 +251,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
+     * 设置数据恢复readFromDb
+     */
+    private void readFromDb(){
+        todayf = 0;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        //指明去查询Book表。
+        Cursor cursor = db.query("foot",null,null,null,null,null,null);
+        //调用moveToFirst()将数据指针移动到第一行的位置。
+        if (cursor.moveToFirst()){
+            do {
+                int type = cursor.getInt(cursor.getColumnIndex("type"));
+                int tnum = cursor.getInt(cursor.getColumnIndex("num"));
+                score[type] = tnum;
+                todayf+=tnum;
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        tt2.setText(""+todayf);
+        getAxisXLables();//获取x轴的标注
+        getAxisPoints();//获取坐标点
+        initLineChart();//初始化
+    }
+
+
+    /**
      * 设置X 轴的显示
      */
     private void getAxisXLables(){
@@ -233,8 +295,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Line line = new Line(mPointValues).setColor( Color.parseColor("#FFCD41"));  //折线的颜色（橙色）
         List<Line> lines = new ArrayList<Line>();
         line.setShape( ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
-        line.setCubic(false);//曲线是否平滑，即是曲线还是折线
-        line.setFilled(false);//是否填充曲线的面积
+        line.setCubic(true);//曲线是否平滑，即是曲线还是折线
+        line.setFilled(true);//是否填充曲线的面积
         line.setHasLabels(true);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
         line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
