@@ -19,19 +19,19 @@ import android.os.Message;
  * TODO: document your custom view class.
  */
 public class MyView extends View {
-
-    private int XPoint = 60;
-    private int YPoint = 760;
-    private int XScale = 8;  //刻度长度
-    private int YScale = 33;
-    private int XLength = 380;
-    private int YLength = 660;
+    public Thread t;
+    public  static int XPoint = 60;
+    public  static int YPoint = 760;
+    public  static int XScale = 8;  //刻度长度
+    public  static int YScale = 33;
+    public  static int XLength = 380;
+    public  static int YLength = 660;
 
     private int MaxDataSize = XLength / XScale;
 
-    private List<Integer> data = new ArrayList<Integer>();
-    private List<Integer> datay = new ArrayList<Integer>();
-    private List<Integer> dataz = new ArrayList<Integer>();
+    public  static List<Integer> data = new ArrayList<Integer>();
+    public  static List<Integer> datay = new ArrayList<Integer>();
+    public  static List<Integer> dataz = new ArrayList<Integer>();
 
 
 
@@ -55,8 +55,10 @@ public class MyView extends View {
         for(int i=0; i<YLabel.length; i++){
             YLabel[i] = (i - 9) + " ";
         }
-
-        new Thread(new Runnable() {
+        data.clear();
+        datay.clear();
+        dataz.clear();
+        t = new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -84,7 +86,8 @@ public class MyView extends View {
                     handler.sendEmptyMessage(0x1234);
                 }
             }
-        }).start();
+        });
+        t.start();
     }
     public MyView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);

@@ -250,7 +250,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="20px"
                         android:layout_marginBottom="1.0px"
-                        android:background="?attr/colorButtonNormal" />
+                        android:background="@android:color/darker_gray" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -368,7 +368,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="20px"
                         android:layout_marginBottom="1.0px"
-                        android:background="?attr/colorButtonNormal" />
+                        android:background="@android:color/darker_gray" />
 
                 </LinearLayout>
 
@@ -385,7 +385,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_marginBottom="1.0px"
-                    android:background="?attr/colorButtonNormal" />
+                    android:background="@android:color/darker_gray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

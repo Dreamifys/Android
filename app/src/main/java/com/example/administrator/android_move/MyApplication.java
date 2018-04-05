@@ -28,4 +28,11 @@ public class MyApplication extends Application {
     public void setZ(int score) {
         this.z = score;
     }
+    private Boolean flag = false;
+    public Boolean getFlag() {
+        return flag;
+    }
+    public void setFlag(Boolean score) {
+        this.flag = score;
+    }
 }
